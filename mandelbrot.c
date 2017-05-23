@@ -1,33 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
-float checkMandelbrotPoint(float x0, float y0, int times) {
-  float ESCAPE = 2*2;
+// double logBase = 1.4426950408889634;
+// double logHalfBase = -1;
+
+double point(double Cr, double Ci, int times) {
+  double ESCAPE = 4;
   int MAX_ITERATION = times;
 
-  float x = 0;
-  float y = 0;
-  float xsqr = 0;
-  float ysqr = 0;
-  int iteration = 0;
-  while (xsqr + ysqr <= ESCAPE && iteration < MAX_ITERATION) {
-    y = x * y;
-    y += y;
-    y += y0;
-    x = xsqr - ysqr + x0;
-    xsqr = pow(x, 2);
-    ysqr = pow(y, 2);
-    iteration++;
+  double Zr = 0;
+  double Zi = 0;
+  double Tr = 0;
+  double Ti = 0;
+  int i = 0;
+  while (Tr + Ti <= ESCAPE && i < MAX_ITERATION) {
+    Zi = Zr * Zi;
+    Zi += Zi;
+    Zi += Ci;
+    Zr = Tr - Ti + Cr;
+    Tr = pow(Zr, 2);
+    Ti = pow(Zi, 2);
+    i++;
   }
-  if (iteration == MAX_ITERATION) {
-    return (float)1;
+  if (i == MAX_ITERATION) {
+    return (double)-1;
   } else {
-    return (float)iteration / (float)MAX_ITERATION;
+    return (double)i / (double)MAX_ITERATION * 255.0;
   }
-}
-
-float getColor(float x, float y, int times) {
-  float a = checkMandelbrotPoint(x, y, times);
-  return a * 255;
 }
